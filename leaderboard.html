@@ -1,0 +1,18 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap"><link rel="stylesheet" href="style.css"><title>Leaderboard – IDP Band Quest</title></head><body><main><nav id="nav"></nav>
+<h1>Leaderboard</h1><p class="muted">Compete with other learners. Earn XP by finishing tasks and quizzes.</p>
+<div class="tabs"><button class="tab" data-m="week" aria-selected="true">This week</button><button class="tab" data-m="all" aria-selected="false">All time</button></div>
+<div class="grid" id="pd"></div>
+<div class="card" style="margin-top:14px" id="nt"></div>
+<div class="card scroll" style="margin-top:14px;padding:8px 14px"><table><tr><th>#</th><th>Player</th><th>XP</th></tr><tbody id="tb"></tbody></table></div>
+<h2>How points work</h2><div class="card"><p style="margin:0">Each task gives 15–30 XP. Each correct quiz answer gives 10 XP. Keep a daily streak to stay active. Every 100 XP is a new level. Weekly rankings reset every 7 days, all-time rankings never reset.</p></div>
+</main><script src="app.js"></script><script>
+nav("leaderboard");var m="week";
+function draw(){var a=ranking(m),i,h="";
+document.querySelectorAll("[data-m]").forEach(function(b){b.setAttribute("aria-selected",b.dataset.m==m)});
+$("pd").innerHTML=a.slice(0,3).map(function(p,i){return'<div class="card pod"><div>'+["🥇","🥈","🥉"][i]+'</div><b>'+p.n+'</b><div class="big">'+p.x+'</div><span class="muted">XP</span></div>'}).join("");
+a.forEach(function(p,i){h+='<tr'+(p.me?' class="me"':'')+'><td>'+(i+1)+'</td><td>'+p.n+'</td><td>'+p.x+'</td></tr>'});$("tb").innerHTML=h;
+var r=myRank(m)-1,me=a[r],msg;
+if(r==0)msg="You are #1! Keep your lead of "+(a[1].x-me.x<0?0:me.x-a[1].x)+" XP.";else msg="You are #"+(r+1)+". Earn <b>"+(a[r-1].x-me.x+1)+" XP</b> to pass "+a[r-1].n+".";
+$("nt").innerHTML='<h3>Your position</h3><p style="margin:0">'+msg+'</p>'}
+document.querySelectorAll("[data-m]").forEach(function(b){b.onclick=function(){m=b.dataset.m;draw()}});draw();
+</script></body></html>

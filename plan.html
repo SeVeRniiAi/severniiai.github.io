@@ -1,0 +1,17 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap"><link rel="stylesheet" href="style.css"><title>Marathon plan – IDP Band Quest</title></head><body><main><nav id="nav"></nav>
+<h1>1-month marathon plan</h1>
+<p class="muted">30 days of learning. Click any day to open its tasks. Days with a red label have events.</p>
+<div class="grid" id="sm"></div>
+<h2>Your 30 days</h2><div class="cal" id="m1"></div>
+<h2>Upcoming events</h2><div class="card" id="ev"></div>
+</main><script src="app.js"></script><script>
+nav("plan");
+var s=stats(),t=todayNum();
+function card(a,v){return'<div class="card"><div class="muted" style="font-size:13px">'+a+'</div><div class="big">'+v+'</div></div>'}
+$("sm").innerHTML=card("Today","Day "+Math.min(Math.max(t,1),30))+card("Days completed",s.days)+card("Tasks done",s.tasks)+card("Total XP",S.xp);
+function cell(n){var D=DAYS[n],c="day"+(n==t?" today":"")+(dayDone(n)?" done":"")+(D?"":" soon");
+return'<a class="'+c+'" href="tasks.html?day='+n+'"><div><b>'+n+'</b> <small>'+fmt(dateOf(n))+'</small>'+(dayDone(n)?' ✓':'')+'</div>'+(EV[n]?'<span class="ev">'+EV[n]+'</span>':'')+'<span style="display:block;margin-top:4px">'+(D?D.t.split(":")[0]:'Coming soon')+'</span></a>'}
+var a="";for(var i=1;i<=30;i++)a+=cell(i);$("m1").innerHTML=a;
+var e="";for(var k in EV)if(+k>=t)e+='<div style="padding:6px 0;border-bottom:1px solid var(--line)"><b>Day '+k+'</b> · '+fmt(dateOf(+k))+' · '+EV[k]+'</div>';
+$("ev").innerHTML=e||"No upcoming events.";
+</script></body></html>

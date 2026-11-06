@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap"><link rel="stylesheet" href="style.css"><title>IDP Band Quest – Digital Community</title></head><body><main><nav id="nav"></nav>
+<header class="hero">
+<h1>Learn by playing. Grow together.</h1>
+<p class="muted">IDP Band Quest turns Telegram and YouTube from places where people watch into a community where they practice, compete and improve. Join a 1-month IELTS marathon with daily tasks, quizzes and a live leaderboard.</p>
+<p><a class="btn" href="#auth">Create account</a> <a class="tab" href="#menu">Explore the platform</a></p>
+</header>
+
+<section id="menu"><h2>Main menu</h2>
+<div class="two">
+<a class="card menu" href="profile.html"><b>Profile</b>Your rank, XP, streak, badges and statistics.<br><span>Open →</span></a>
+<a class="card menu" href="tasks.html"><b>Tasks</b>Today’s lesson, tasks and mini quiz.<br><span>Open →</span></a>
+<a class="card menu" href="plan.html"><b>Marathon plan</b>Your 30-day calendar with tasks and events.<br><span>Open →</span></a>
+<a class="card menu" href="leaderboard.html"><b>Leaderboard</b>Weekly and all-time rankings.<br><span>Open →</span></a>
+</div></section>
+
+<section><h2>The idea: one loop</h2>
+<div class="grid steps">
+<div class="card"><b>Watch</b><br>Short YouTube lesson (3–5 min) with one clear skill.</div>
+<div class="card"><b>Practice</b><br>Telegram sends a quiz or task on the same topic.</div>
+<div class="card"><b>Earn</b><br>XP, streaks and badges. Weekly leaderboard.</div>
+<div class="card"><b>Return</b><br>Streak reminders and new challenges bring people back.</div>
+</div></section>
+
+<section id="strategy"><h2>1-month strategy</h2>
+<p class="muted">Goal: attract a young audience (16–25), grow subscribers, and build an active learning community.</p>
+<div class="card" id="mb"></div>
+<h2>Growth targets</h2>
+<div class="card scroll" style="padding:8px 14px"><table>
+<tr><th>Metric</th><th>Today</th><th>Week 2</th><th>Day 30</th></tr>
+<tr><td>Telegram members</td><td>1,000</td><td>1,600</td><td>2,200</td></tr>
+<tr><td>YouTube subscribers</td><td>1,000</td><td>1,400</td><td>1,800</td></tr>
+<tr><td>Weekly active players</td><td>0</td><td>300</td><td>600</td></tr>
+<tr><td>Task completion rate</td><td>–</td><td>35%</td><td>45%</td></tr></table></div>
+<div class="card" style="margin-top:14px"><h3>Try your own numbers</h3>
+<label for="s0">Starting members: <b id="s0v"></b></label><input id="s0" type="range" min="100" max="20000" step="100" value="1000">
+<label for="g0">Weekly growth: <b id="g0v"></b></label><input id="g0" type="range" min="1" max="30" value="12">
+<p style="margin:12px 0 0">After 4 weeks: <span class="big" id="pj"></span></p></div>
+</section>
+
+<section><h2>Minimal budget</h2><p class="muted">Free tools first. About $270 per month.</p>
+<div class="card scroll" style="padding:8px 14px"><table>
+<tr><th>Item</th><th>Tool</th><th>Cost / month</th></tr>
+<tr><td>Telegram bot and channel</td><td>Telegram Bot API, free hosting tier</td><td>$0</td></tr>
+<tr><td>Video editing and design</td><td>CapCut, Canva free</td><td>$0</td></tr>
+<tr><td>Prizes</td><td>Merch, courses, gift cards for weekly winners</td><td>$120</td></tr>
+<tr><td>Micro-influencers (3)</td><td>Student creators, 10–50k followers</td><td>$100</td></tr>
+<tr><td>Targeted ads test</td><td>Telegram Ads, YouTube Shorts</td><td>$50</td></tr></table></div></section>
+
+<section id="auth"><h2>Log in or sign up</h2>
+<div class="card" style="max-width:420px">
+<div class="tabs"><button class="tab" data-a="lf" aria-selected="true">Log in</button><button class="tab" data-a="sf" aria-selected="false">Sign up</button></div>
+<form id="lf"><label class="fld">Email<input type="email" placeholder="you@example.com" autocomplete="email"></label>
+<label class="fld">Password<input type="password" placeholder="Your password" autocomplete="current-password"></label>
+<button class="btn" type="submit">Log in</button></form>
+<form id="sf" hidden><label class="fld">Name<input type="text" placeholder="Your name" autocomplete="name"></label>
+<label class="fld">Email<input type="email" placeholder="you@example.com" autocomplete="email"></label>
+<label class="fld">Password<input type="password" placeholder="Create a password" autocomplete="new-password"></label>
+<label class="fld">Confirm password<input type="password" placeholder="Repeat password" autocomplete="new-password"></label>
+<button class="btn" type="submit">Create account</button></form>
+<p class="note" id="an">Prototype: sign-in is visual only and is not connected yet.</p></div></section>
+</main><script src="app.js"></script><script>
+nav("index");
+var WK=["Week 1: Launch the Telegram bot with daily tasks and set up the YouTube playlist","Week 2: Publish 3 Shorts per week, each ending with a task link, and start the 7-day streak challenge","Week 3: Launch the Myth or Fact mini-game and collaborate with 3 student micro-influencers","Week 4: Live quiz night, final tournament, results survey and plan for the next season"];
+$("mb").innerHTML='<h3>Week by week</h3><p class="muted">Days 1–30. Goal: 600 weekly active players.</p><ul class="plan">'+WK.map(function(i){return'<li>'+i+'</li>'}).join("")+'</ul>';
+function calc(){var s=+$("s0").value,g=+$("g0").value;$("s0v").textContent=s.toLocaleString("en-US");$("g0v").textContent=g+"%";$("pj").textContent=Math.round(s*Math.pow(1+g/100,4)).toLocaleString("en-US")}
+$("s0").oninput=calc;$("g0").oninput=calc;calc();
+document.querySelectorAll("[data-a]").forEach(function(b){b.onclick=function(){document.querySelectorAll("[data-a]").forEach(function(x){x.setAttribute("aria-selected",x===b)});$("lf").hidden=b.dataset.a!="lf";$("sf").hidden=b.dataset.a!="sf"}});
+["lf","sf"].forEach(function(i){$(i).onsubmit=function(e){e.preventDefault();$("an").textContent="Demo only: authentication will be connected in the next version.";$("an").style.color="var(--accent)"}});
+</script></body></html>

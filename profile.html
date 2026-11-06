@@ -1,0 +1,27 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap"><link rel="stylesheet" href="style.css"><title>Profile – IDP Band Quest</title></head><body><main><nav id="nav"></nav>
+<h1>My profile</h1>
+<p class="muted">Your place, points, tasks and progress in one view.</p>
+<label class="muted" for="nm">Your name</label><br><input type="text" id="nm" maxlength="20">
+<div class="grid" style="margin-top:16px" id="st"></div>
+<div class="card" style="margin-top:14px"><h3 id="lv"></h3><div class="bar"><i id="lb"></i></div><p class="muted" id="lt" style="margin:0"></p></div>
+<div class="two" style="margin-top:14px">
+<div class="card"><h3>XP in the last 7 days</h3><div class="bars" id="wk"></div></div>
+<div class="card"><h3>Marathon progress</h3><div class="big" id="mp"></div><div class="bar"><i id="mb"></i></div><p class="muted" id="mt" style="margin:0"></p><p style="margin:12px 0 0"><a class="btn" href="tasks.html">Go to today’s tasks</a></p></div>
+</div>
+<h2>Badges</h2><div class="grid" id="bd"></div>
+<p style="margin-top:28px"><button class="tab" id="rs">Reset all progress</button></p>
+</main><script src="app.js"></script><script>
+nav("profile");
+$("nm").value=S.name==="You"?"":S.name;$("nm").placeholder="You";$("nm").oninput=function(){S.name=this.value.trim()||"You";save()};
+var s=stats(),rk=myRank("all"),lv=Math.floor(S.xp/100)+1,tot=BOARD.length+1;
+function card(t,v){return'<div class="card"><div class="muted" style="font-size:13px">'+t+'</div><div class="big">'+v+'</div></div>'}
+$("st").innerHTML=card("Rank","#"+rk+" of "+tot)+card("Total XP",S.xp)+card("Streak","🔥 "+S.streak)+card("Tasks done",s.tasks)+card("Correct answers",s.quiz)+card("This week",weekXP()+" XP");
+$("lv").textContent="Level "+lv;$("lb").style.width=(S.xp%100)+"%";$("lt").textContent=(100-S.xp%100)+" XP to level "+(lv+1);
+var days=[],mx=1;for(var i=6;i>=0;i--){var d=new Date(Date.now()-i*864e5);days.push([d.toLocaleDateString("en-US",{weekday:"short"}),S.log[key(d)]||0])}
+days.forEach(function(x){mx=Math.max(mx,x[1])});
+$("wk").innerHTML=days.map(function(x){return'<div><i style="height:'+Math.round(x[1]/mx*80)+'px"></i>'+x[0]+'<br><b>'+x[1]+'</b></div>'}).join("");
+$("mp").textContent="Day "+Math.min(Math.max(todayNum(),1),30)+" / 30";$("mb").style.width=(s.days/30*100)+"%";$("mt").textContent=s.days+" days completed";
+var B=[["First step","Complete 1 task",s.tasks>=1],["On fire","3-day streak",S.streak>=3],["Quiz ace","5 correct answers",s.quiz>=5],["Rising star","Reach 100 XP",S.xp>=100],["Top 5","Reach top 5 overall",rk<=5]];
+$("bd").innerHTML=B.map(function(b){return'<div class="badge'+(b[2]?' on':'')+'"><b>'+(b[2]?"🏅 ":"🔒 ")+b[0]+'</b><br><span class="muted" style="font-size:13px">'+b[1]+'</span></div>'}).join("");
+$("rs").onclick=function(){if(confirm("Reset all progress?")){localStorage.removeItem(LS);location.reload()}};
+</script></body></html>

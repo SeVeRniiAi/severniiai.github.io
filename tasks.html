@@ -1,0 +1,23 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap"><link rel="stylesheet" href="style.css"><title>Tasks – IDP Band Quest</title></head><body><main><nav id="nav"></nav>
+<div class="tabs" style="margin-top:8px"><a class="tab" id="pv" href="#">← Prev</a><a class="tab" id="nx" href="#">Next →</a><a class="tab" href="plan.html">Calendar</a></div>
+<h1 id="ti"></h1><p class="muted" id="sb"></p><div id="bd"></div>
+</main><script src="app.js"></script><script>
+nav("tasks");
+var q=new URLSearchParams(location.search).get("day"),day=Math.min(Math.max(+q||todayNum(),1),30),D=DAYS[day],tk="d"+day;
+$("pv").href="tasks.html?day="+Math.max(1,day-1);$("nx").href="tasks.html?day="+Math.min(30,day+1);
+$("ti").textContent="Day "+day+(D?": "+D.t:"");
+$("sb").textContent=dateOf(day).toLocaleDateString("en-US",{weekday:"long",month:"long",day:"numeric"})+(day==todayNum()?" · Today":"")+(EV[day]?" · Event: "+EV[day]:"");
+function draw(){var b=$("bd");
+if(!D){b.innerHTML='<div class="card"><h3>Coming soon</h3><p class="muted" style="margin:0">Tasks for this day will appear later.'+(EV[day]?' Event planned: <b>'+EV[day]+'</b>.':'')+'</p></div>';return}
+var done=S.tasks[tk]||[],h='<div class="card"><h3>Lesson</h3><p style="margin:0">'+D.l+'</p></div><div class="card" style="margin-top:14px"><h3>Tasks</h3>';
+D.tasks.forEach(function(t,i){h+='<label class="task"><input type="checkbox" data-i="'+i+'"'+(done.indexOf(i)>-1?' checked':'')+'><span style="flex:1">'+t[0]+'</span><b>+'+t[1]+' XP</b></label>'});
+h+='<p class="muted" style="margin:12px 0 0">'+done.length+' of '+D.tasks.length+' completed'+(done.length==D.tasks.length?' ✓ Day complete!':'')+'</p></div><div class="card" style="margin-top:14px"><h3>Mini quiz</h3>';
+D.quiz.forEach(function(z,qi){var a=S.quiz[tk+"_"+qi];h+='<p style="margin:14px 0 0"><b>'+(qi+1)+'. '+z.q+'</b></p>';
+z.o.forEach(function(o,oi){var c=a?(oi===z.a?' ok':(oi===a.p?' bad':'')):'';h+='<button class="opt'+c+'" data-q="'+qi+'" data-o="'+oi+'"'+(a?' disabled':'')+'>'+o+'</button>'});
+if(a)h+='<p style="margin:8px 0 0">'+(a.ok?'Correct! +10 XP':'Not quite.')+'</p>'});
+b.innerHTML=h+'</div>';
+b.querySelectorAll("input").forEach(function(c){c.onchange=function(){var i=+c.dataset.i,L=S.tasks[tk]=S.tasks[tk]||[],p=L.indexOf(i);
+if(c.checked&&p<0){L.push(i);addXP(D.tasks[i][1])}else if(!c.checked&&p>-1){L.splice(p,1);addXP(-D.tasks[i][1])}save();draw()}});
+b.querySelectorAll(".opt").forEach(function(o){o.onclick=function(){var qi=+o.dataset.q,p=+o.dataset.o,ok=p===D.quiz[qi].a;S.quiz[tk+"_"+qi]={p:p,ok:ok};if(ok)addXP(10);save();draw()}})}
+draw();
+</script></body></html>
